@@ -57,26 +57,30 @@
 		var totalSpentRow = "<tr><td class = 'ledger-head'>Amount Spent</td><td>"+totalSpent+"</td></tr>";
 		var totalDueRow = "<tr><td class = 'ledger-head'>Amount Due</td><td>"+totalDue+"</td></tr>";
 		//Not sure how to work with alerts...
-		var userNotices = "<p class='alert'>Alert Message</p>"
+		var userNotices = "<p class='alert'>Alert Message</p>";
 		
 	}
-	
+	//Now to begin scary initLeftColumn, not sure what I'm doing here but here goes:
 	function initLeftColum(){
-		
-		
-		
-		
+	var rowNumber = 0;
+	//I hope I actually had to do this because it took a long time lol:
+	var ledgerHead =  "<table id='ledger'><thead class='ledger-head'><tr><td class='date'>Date</td><td class='description'>
+        Description </td><td class='responsible'>Responsible</td><td class='amountOwed'>Amount Owed</td><td class='amountDue'>
+        Amount Due</td><td class='totalDue'> Total Due</td><td class='dueDate'>Due Date</td><td class='paid'>
+	Paid?</td></tr></thead>";
+   	
+	}
+	//I'm assuming we'll need a function to initialize the add new bill generic row:
+	function initBillLine(){
+	
+
 	}
 
-
-
-
-
-
-
+	//Here's that function that used to sort of append Larry rows everywhere:
 	$(document).ready(function(){
   	var currentTable = document.getElementById("ledger");
         $("#submit").click(function(){
-      	$("#ledger").append("<tr><td></td><td></td><td>Larry</td><td>Amount Owed</td><td>Amount due</td><td></td><td></td><td>Yes</td></tr>");                                                 
+	//We need to make a generic row that is editable so a user can put in new values, create variables for them, then stick them below:
+      	$("#ledger").append("<tr><td>Date</td><td>Description</td><td>Responsible</td><td>Amount Owed</td><td>Amount due</td><td>Total Due</td><td>Due Date</td><td>Paid</td></tr>");                                                 
 		});
 	});
