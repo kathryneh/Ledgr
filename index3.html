@@ -1,0 +1,425 @@
+<!DOCTYPE HTML>
+<!--TODO: modify the bill main line to remove the amt owed/amt due and instead just have the owner, the total paid, and the total amount due, and split the owner part down into a lower line-->
+<!--TODO: future - add categories, i.e. to keep track of things like "you get dinner tonight, and I'll get dinner next time"-->
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Ledgr</title>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+		<script src="jquery-1.8.2.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<!--this is just a pretty font that we can use =) -->
+		<link href='http://fonts.googleapis.com/css?family=News+Cycle' rel='stylesheet' type='text/css'>
+	</head>
+	<body>
+		<div class="container">
+			<!--begin header area -->
+			<div class="header">
+				<div class="logo">
+					<img src="http://www.placekitten.com/40/40" alt="ninja">
+					<span id="pagetitle">Ledgr</span>
+				</div> 
+				<div class="user">
+					<img src="http://placekitten.com/40/40" alt="a kitten!">
+					<span id="username"> alkali </span>
+				</div>
+			</div>
+		<!-- end header area -->
+
+		<!--begin nav --> 
+		<nav>
+			<ul class="main-nav">
+				<li id="selected"> home </li>
+				<li>   </li>
+				<li>   </li>
+				<li>   </li>
+				<li>   </li>
+				<li> settings </li>
+			</ul>		
+		</nav>
+		<!--end nav-->
+		<!--begin right column -->
+			<div class="rightColumn">
+				<div id="userInfo">
+					<div id="userPhoto">
+						<img src="http://www.placekitten.com/50/50" alt="user photo">
+						<h3> Welcome, Alkali! </h3> 
+					</div>
+
+					<table id="userSummaries" >
+						<tr><td class="ledger-head"> Amount Owed By You</td><td>$X.XX</td></tr>
+						<tr><td class="ledger-head">  Amount Owed To You </td><td>$X.XX</td></tr>
+						<tr><td class="ledger-head"> Amount Spent</td><td>$X.XX</td></tr>
+						<tr><td class="ledger-head"> Amount Due </td><td>$X.XX</td></tr>
+					</table>
+				</div>
+				<div id="userNotices">
+					<p class="alert"> Rent due in 3 Days </p>
+					<p class="notice"> Energy Bill due next week </p>
+					<p> You owe Jack for Pizza </p>
+				</div>
+			</div>
+			<!--end right column --> 
+
+			<!--begin left column -->
+			<div class="leftColumn">
+				<p> Currently Showing
+					<select>
+					  <option value="currentMonth">Current Month</option>
+					  <option value="pastMonth">Past Month</option>
+					  <option value="allHistory">All of History</option>
+					</select>
+				</p>
+				<table id="ledger">
+					<thead class="ledger-head">
+						<tr>
+							<td class="date">
+								Date
+							</td>
+							<td class="description">
+								Description
+							</td>
+							<td class="responsible">
+								Responsible
+							</td>
+							<td class="amountOwed">
+								Amount Owed 
+							</td>
+							<td class="amountDue">
+								Amount Due 
+							</td>
+							<td class="totalDue">
+								Total Due
+							</td>
+							<td class="dueDate">
+								Due Date
+							</td>
+							<td class="paid">
+								Paid?
+							</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr id="row1" class="ledger">
+							<td class="date">
+								10/18
+							</td>
+							<td class="description">
+								Rent
+							</td>
+							<td class="responsible">
+								Jack
+							</td>
+							<td class="totalPaid" colspan=2>
+								Amount Owed 
+							</td>
+							<td class="totalDue">
+								$1100.00
+							</td>
+							<td class="dueDate">
+								11/5
+							</td>
+							<td class="date">
+								No 
+							</td>
+						</tr>
+						<tr id="row1a" class="ledger">
+							<td class="date">
+								
+							</td>
+							<td class="description">
+								
+							</td>
+							<td class="responsible">
+								Jill
+							</td>
+							<td class="amountOwed">
+								Amount Owed 
+							</td>
+							<td class="amountDue">
+								Amount Due 
+							</td>
+							<td class="totalDue">
+								
+							</td>
+							<td class="dueDate">
+								
+							</td>
+							<td class="paid">
+								No 
+							</td>
+						</tr>
+						<tr id="row1b" class="ledger">
+							<td class="date">
+								
+							</td>
+							<td class="description">
+								
+							</td>
+							<td class="responsible">
+								Larry
+							</td>
+							<td class="amountOwed">
+								Amount Owed 
+							</td>
+							<td class="amountDue">
+								Amount Due 
+							</td>
+							<td class="totalDue">
+								
+							</td>
+							<td class="dueDate">
+								
+							</td>
+							<td class="paid">
+								Yes
+							</td>
+						</tr>
+						<tr id="row2" class="ledger">
+							<td class="date">
+								10/18
+							</td>
+							<td class="description">
+								Rent
+							</td>
+							<td class="responsible">
+								Jack
+							</td>
+							<td class="totalPaid" colspan=2>
+								Amount Owed 
+							</td>
+							<td class="totalDue">
+								$1100.00
+							</td>
+							<td class="dueDate">
+								11/5
+							</td>
+							<td class="paid">
+								No 
+							</td>
+						</tr>
+						<tr id="row2a" class="ledger">
+							<td class="date">
+								
+							</td>
+							<td class="description">
+								
+							</td>
+							<td class="responsible">
+								Jill
+							</td>
+							<td class="amountOwed">
+								Amount Owed 
+							</td>
+							<td class="amountDue">
+								Amount Due 
+							</td>
+							<td class="totalDue">
+								
+							</td>
+							<td class="dueDate">
+								
+							</td>
+							<td class="paid">
+								No 
+							</td>
+						</tr>
+						<tr id="row2b" class="ledger">
+							<td class="date">
+								
+							</td>
+							<td class="description">
+								
+							</td>
+							<td class="responsible">
+								Larry
+							</td>
+							<td class="amountOwed">
+								Amount Owed 
+							</td>
+							<td class="amountDue">
+								Amount Due 
+							</td>
+							<td class="totalDue">
+								
+							</td>
+							<td class="dueDate">
+								
+							</td>
+							<td class="paid">
+								Yes
+							</td>
+						</tr>
+						<tr id="row3" class="ledger">
+							<td class="date">
+								10/18
+							</td>
+							<td class="description">
+								Rent
+							</td>
+							<td class="responsible">
+								Jack
+							</td>
+							<td class="totalPaid" colspan=2>
+								Amount Owed 
+							</td>
+							<td class="totalDue">
+								$1100.00
+							</td>
+							<td class="dueDate">
+								11/5
+							</td>
+							<td class="paid">
+								No 
+							</td>
+						</tr>
+						<tr id="row4" class="ledger">
+							<td class="date">
+								10/18
+							</td>
+							<td class="description">
+								Rent
+							</td>
+							<td class="responsible">
+								Jack
+							</td>
+							<td class="totalPaid" colspan=2>
+								Amount Owed 
+							</td>
+							<td class="totalDue">
+								$1100.00
+							</td>
+							<td class="dueDate">
+								11/5
+							</td>
+							<td class="paid">
+								No 
+							</td>
+						</tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr class="ledger-head"><td>Add New</td></tr>
+
+						<tr class="rowAdd">
+							<td class="date" contenteditable="true">
+								Received MM/DD
+							</td>
+							<td class="description" contenteditable="true">
+								Description
+							</td>
+							<td class="responsible" contenteditable="true">
+								Responsible
+							</td>
+							<td class="totalPaid" colspan=2>
+								Amount Owed 
+							</td>
+							<td class="totalDue" contenteditable="true">
+								$0.00
+							</td>
+							<td class="dueDate" contenteditable="true">
+								Due MM/DD
+							</td>
+							<td class="paid" contenteditable="true">
+								No
+							</td>
+						</tr>
+						<tr class="rowAdd">
+							<td class="empty">
+								
+							</td>
+							<td class="empty">
+								
+							</td>
+							<td class="responsible" contenteditable="true">
+								Responsible
+							</td>
+							<td class="amountOwed" contenteditable="true"> Amount Owed
+							</td>
+							<td class="amountDue" contenteditable="true"> Amount Due
+							</td>
+							<td class="empty">
+								
+							</td>
+							<td class="empty">
+							</td>
+							<td class="empty">
+							</td>
+						</tr>
+						<tr class="rowAdd">
+							<td class="empty">
+								
+							</td>
+							<td class="empty">
+								
+							</td>
+							<td class="responsible" contenteditable="true">
+								Responsible
+							</td>
+							<td class="amountOwed" contenteditable="true"> Amount Owed
+							</td>
+							<td class="amountDue" contenteditable="true"> Amount Due
+							</td>
+							<td class="empty">
+								
+							</td>
+							<td class="empty">
+							</td>
+							<td class="empty">
+							</td>
+						</tr>						
+
+<!--  -->
+					</tbody>
+				</table>
+				<input type="button" value="Clear"> <input id="submit" type="submit">
+			</div>
+			<!--end left column-->
+		</div>
+		<!--end container --> 
+	</body>
+
+
+
+
+
+<!-- 							<tr id="addNewBill">
+							<td class="date">
+								<input type=text name="date" placeholder="MM/DD">
+							</td>
+							<td class="description">
+								<input type=text name="description">
+							</td>
+							<td class="responsible">
+								<input type=text name="responsible">
+							</td>
+							<td class="amountOwed">
+								<input type=text name="amtOwed">/<input type=text name="amtDue">
+							</td>
+							<td class="totalDue">
+								<input type=text name="totalDue">
+							</td>
+							<td class="dueDate">
+								<input type=text name="dueDate">
+							</td>
+							<td class="paid">
+								<input type=text name="paid">
+							</td>
+						</tr>
+						<tr id="addNewResponsible">
+							<td class="date">
+							</td>
+							<td class="description">
+							</td>
+							<td class="responsible">
+								<input type=text name="addResponsible">
+							</td>
+							<td class="amountOwed">
+								<input type=text name="addAmtOwed">/<input type=text name="addAmtDue">
+							</td>
+							<td class="totalDue">
+							</td>
+							<td class="dueDate">
+							</td>
+							<td class="paid">
+								<!--could do a placeholder contenteditable, then on click clear the contents
+							</td>
+						</tr> -->
