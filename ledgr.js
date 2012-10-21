@@ -106,9 +106,14 @@
 		ledgerHeader.append(temp);
 	});
 	ledgerTable.append(ledgerHeader);
-
+	//do the same thing here with row1 - make a structure for adding the data the same as the header
+	//then, do the same thing with row1a and row1b. 
 
 	leftColumn.append(ledgerTable);
+	}
+
+	function initAddForm(){
+	//then, make a form with the data here as well. Make names we can pull from. 	
 	}
 
 	$(document).ready(ready);
