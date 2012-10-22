@@ -19,6 +19,7 @@
 		var row1 = ["10/18","rent", "Larry", "$300.00", "$500.00", "10/31", "No"];
 		var row1a = [" ", " ", "Jill", "$0.00", "$200.00", " ", "No"];
 		var row1b = [" ", " ", "Larry", "$300.00", "$300.00", " ", "Yes"];
+		var rowAdd = ["Received MM/DD", "Description", "Responsible", "Amount Owed", "$0.00", "Due MM/DD", "Paid"];
 
 	//	var row1a = {
 	//		payee: "Jill", 
@@ -40,7 +41,7 @@
 		};
 		initRightColumn(imgSrc, userTitle, currentUserSum);
 		initLeftColumn(row1, row1a, row1b);
-		initAddForm();
+		initAddForm(rowAdd);
 	}
 
 	function initHeader(pageTitle, userTitle, imgSrc, userImgSrc){
@@ -144,14 +145,14 @@
 	leftColumn.append(ledgerTable);
 	}
 
-	function initAddForm(){
+	function initAddForm(rowAdd){
 	var addForm = $('.addForm');
 
-	//var addHeaderLabels = ['date', 'description', 'responsible', 'amount paid', 'amount due', 'due date', 'paid'];
+	var addHeaderLabels = ['date', 'description', 'responsible', 'amount paid', 'amount due', 'due date', 'paid'];
 
 	var addFormTable = $("<table id='addForm'></table>");
 	var addFormHeader = $("<thead class='ledger-add'><tr></tr></thead>");
-	var addRow1 = $("<thead clas='ledger-add'><tr></tr></thead>");
+	var addRow1 = $("<tr id = 'ledger-add1'></tr>");
 	
 	//Meant to add extra table header labels here
 	console.log(rowAdd);
