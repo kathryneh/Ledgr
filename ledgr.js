@@ -40,7 +40,7 @@
 		};
 		initRightColumn(imgSrc, userTitle, currentUserSum);
 		initLeftColumn(row1, row1a, row1b);
-			
+		initAddForm();
 	}
 
 	function initHeader(pageTitle, userTitle, imgSrc, userImgSrc){
@@ -145,7 +145,34 @@
 	}
 
 	function initAddForm(){
-	//then, make a form with the data here as well. Make names we can pull from. 	
-	}
+	var addForm = $('.addForm');
+
+	//var addHeaderLabels = ['date', 'description', 'responsible', 'amount paid', 'amount due', 'due date', 'paid'];
+
+	var addFormTable = $("<table id='addForm'></table>");
+	var addFormHeader = $("<thead class='ledger-add'><tr></tr></thead>");
+	var addRow1 = $("<thead clas='ledger-add'><tr></tr></thead>");
+	
+	//Meant to add extra table header labels here
+	console.log(rowAdd);
+	//Something wrong with addHeaderLabels:
+	$(addHeaderLabels).each(function(index, label){
+		var temp = "<td class=" + label + ">" + rowAdd[index] + "</td>";
+		addFormHeader.append(temp);
+	});
+
+	addFormTable.append(addFormHeader);
+
+	$(addHeaderLabels).each(function(index,label){
+		var temp = "<input type = 'text' name = 'ledger-add'>"
+		addRow1.append(temp);
+	});
+
+	addFormTable.append(addRow1);
+	addForm.append(addFormTable);
+}
+
+
+
 
 	$(document).ready(ready);
