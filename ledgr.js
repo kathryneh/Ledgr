@@ -7,15 +7,16 @@
 		initHeader(pageTitle, userTitle, imgSrc, userImgSrc);
 
 		//these will eventually be pulled from and populated into a database
-		var row1 = {
-			date: "10/18",
-			description: "rent",
-			payee: "Larry",
-			amtPaid: "$300.00",
-			amtDue: "$500.00",
-			dueDate: "10/31",
-			paid: "No"
-		};
+		// var row1 = {
+		// 	date: "10/18",
+		// 	description: "rent",
+		// 	payee: "Larry",
+		// 	amtPaid: "$300.00",
+		// 	amtDue: "$500.00",
+		// 	dueDate: "10/31",
+		// 	paid: "No"
+		// };
+		var row1 = ["10/18","rent", "Larry", "$300.00", "$500.00", "10/31", "No"];
 		var row1a = {
 			payee: "Jill", 
 			amtPaid: "$0.00", 
@@ -106,7 +107,17 @@
 		ledgerHeader.append(temp);
 	});
 	ledgerTable.append(ledgerHeader);
+
+	var ledgerRow1 = $("<tr id=row1'></tr>");
+	console.log(row1);
+	$(ledgerHeaderLabels).each(function(index, label){
+		var temp = "<td class=" + label + ">" + row1[index] + "</td>";
+		ledgerRow1.append(temp);
+	});
+
+	ledgerTable.append(ledgerRow1);
 	//do the same thing here with row1 - make a structure for adding the data the same as the header
+	
 	//then, do the same thing with row1a and row1b. 
 
 	leftColumn.append(ledgerTable);
