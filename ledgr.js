@@ -194,6 +194,20 @@
 
 }
 
+	//Trigger function when button is clicked
+	$("#submit").click(function(){	
+	console.log(ledgerTable);
+	//Trying to use our current ledgerTable as a parameter here:
+	addNewRow($(ledgerTable));
+	return false;
+	});
+
+	//We then ping this method:
+	function addNewRow(ledgerTable){
+	var $tr = $(ledgerTable).find("tbody tr:last").clone();
+	$(ledgerTable).find("tbody tr:last").append($tr);
+	}
+
 
 
 
