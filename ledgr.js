@@ -19,8 +19,8 @@
 		var row1 = ["10/18","rent", "Larry", "$300.00", "$500.00", "10/31", "No"];
 		var row1a = [" ", " ", "Jill", "$0.00", "$200.00", " ", "No"];
 		var row1b = [" ", " ", "Larry", "$300.00", "$300.00", " ", "Yes"];
-		var rowAdd = ["Received MM/DD", "Description", "Responsible", "Amount Owed", "$0.00", "Due MM/DD", "Paid"];
-
+		var rowAdd = ["Received&nbsp;MM/DD", "Description", "Responsible", "Amount&nbsp;Owed", "Amount&nbsp;Due", "Due&nbsp;MM/DD", "Paid"];
+		var personAdd=[" ", " ", "Person", "Amount&nbsp;Owed", "Amount&nbsp;Due", " ", "Paid"]; 
 	//	var row1a = {
 	//		payee: "Jill", 
 	//		amtPaid: "$0.00", 
@@ -41,7 +41,7 @@
 		};
 		initRightColumn(imgSrc, userTitle, currentUserSum);
 		initLeftColumn(row1, row1a, row1b);
-		initAddForm(rowAdd);
+		initAddForm(rowAdd, personAdd);
 	}
 
 	function initHeader(pageTitle, userTitle, imgSrc, userImgSrc){
@@ -145,32 +145,53 @@
 	leftColumn.append(ledgerTable);
 	}
 
-	function initAddForm(rowAdd){
-	var addForm = $('.addForm');
+	function initAddForm(rowAdd, personAdd){
+	var leftColumn = $('.leftColumn');
+	var addForm = $('<br><div class="addForm"></div>');
 
 	var addHeaderLabels = ['date', 'description', 'responsible', 'amount paid', 'amount due', 'due date', 'paid'];
 
-	var addFormTable = $("<table id='addForm'></table>");
-	var addFormHeader = $("<thead class='ledger-add'><tr></tr></thead>");
+	//var addFormTable = $("<table id='addForm'></table>");
+	var addFormHeader = $("<thead class='ledger-add'></thead>");
+	var addFormTable = $('#ledger');
+
+	addFormHeader.append($('<tr></tr>'))
 	var addRow1 = $("<tr id = 'ledger-add1'></tr>");
+	var addRow2 = $("<tr id='ledger-add1a'></tr>");
 	
 	//Meant to add extra table header labels here
-	console.log(rowAdd);
-	//Something wrong with addHeaderLabels:
-	$(addHeaderLabels).each(function(index, label){
-		var temp = "<td class=" + label + ">" + rowAdd[index] + "</td>";
-		addFormHeader.append(temp);
-	});
+	// console.log(rowAdd);
+	// //Something wrong with addHeaderLabels:
+	// $(addHeaderLabels).each(function(index, label){
+	// 	var temp = "<td class=" + label + ">" + rowAdd[index] + "</td>";
+	// 	addFormHeader.append(temp);
+	// });
 
-	addFormTable.append(addFormHeader);
+	// addFormTable.append(addFormHeader);
 
 	$(addHeaderLabels).each(function(index,label){
-		var temp = "<input type = 'text' name = 'ledger-add'>"
+		var temp = "<td><input type = 'text' name =" +rowAdd[index] + " placeholder="+ rowAdd[index]+"></td>"
 		addRow1.append(temp);
 	});
 
 	addFormTable.append(addRow1);
+
+	$(addHeaderLabels).each(function(index,label){
+		if (personAdd[index] == " "){
+			var temp = "<td></td>";
+		}
+		else{
+			var temp = "<td><input type = 'text' name =" +personAdd[index] + " placeholder="+ personAdd[index]+"></td>"
+		}
+		addRow2.append(temp);
+	});
+
+	addFormTable.append(addRow2);
+
 	addForm.append(addFormTable);
+	addForm.append('<input type="button" value="Clear"> <input id="submit" type="submit">');
+	leftColumn.append(addForm);
+
 }
 
 
