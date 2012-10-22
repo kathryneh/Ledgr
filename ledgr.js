@@ -17,18 +17,21 @@
 		// 	paid: "No"
 		// };
 		var row1 = ["10/18","rent", "Larry", "$300.00", "$500.00", "10/31", "No"];
-		var row1a = {
-			payee: "Jill", 
-			amtPaid: "$0.00", 
-			amtDue: "$200.00",
-			paid: "No"
-		};
-		var row1b = {
-			payee: "Larry", 
-			amtPaid: "$300.00", 
-			amtDue: "$300.00",
-			paid: "Yes"
-		};
+		var row1a = [" ", " ", "Jill", "$0.00", "$200.00", " ", "No"];
+		var row1b = [" ", " ", "Larry", "$300.00", "$300.00", " ", "Yes"];
+
+	//	var row1a = {
+	//		payee: "Jill", 
+	//		amtPaid: "$0.00", 
+	//		amtDue: "$200.00",
+	//		paid: "No"
+	//	};
+	//	var row1b = {
+	//		payee: "Larry", 
+	//		amtPaid: "$300.00", 
+	//		amtDue: "$300.00",
+	//		paid: "Yes"
+	//	};
 		var currentUserSum = {
 			userOwes: '$0.00',
 			userDue: '$0.00',
@@ -116,9 +119,27 @@
 	});
 
 	ledgerTable.append(ledgerRow1);
+
 	//do the same thing here with row1 - make a structure for adding the data the same as the header
-	
 	//then, do the same thing with row1a and row1b. 
+
+	var ledgerRow1a = $("<tr id='row1a'></tr>");
+	console.log(row1a);
+	$(ledgerHeaderLabels).each(function(index,label){
+		var temp = "<td class=" + label + ">" + row1a[index] + "</td>";
+		ledgerRow1a.append(temp);
+	});
+
+	ledgerTable.append(ledgerRow1a);
+
+	var ledgerRow1b = $("<tr id='row1b'></tr>");
+	console.log(row1b);
+	$(ledgerHeaderLabels).each(function(index,label){
+		var temp = "<td class=" + label + ">" + row1b[index] + "</td>";
+		ledgerRow1b.append(temp);
+	});
+	ledgerTable.append(ledgerRow1b);
+
 
 	leftColumn.append(ledgerTable);
 	}
