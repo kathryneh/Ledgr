@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<!--TODO: modify the bill main line to remove the amt owed/amt due and instead just have the owner, the total paid, and the total amount due, and split the owner part down into a lower line-->
+<!--TODO: future - add categories, i.e. to keep track of things like "you get dinner tonight, and I'll get dinner next time"-->
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Ledgr</title>
+		<script src="jquery-1.8.2.min.js"></script>
+		<script src="payee.js"></script>
+		<script src="bill.js"></script>
+		<script src="user.js"></script>
+		<script>
+		var submitForm = function(event){
+			event.preventDefault();
+			console.log($('#amountOwed').val());
+		//$('#container').append($('#test').val());
+		//Bill = function(payTo, owner, dueDate, amtPaid, amtDue, totalDue)
+			var newBill = new Bill($('#dateReceived').val(),
+								   $('#description').val(), 
+							   $('#responsible').val(),
+							   $('#dueDate').val(), 
+							   $('#amountOwed').val(),
+							   $('#amountDue').val(),
+							   $('#paid').val());
+			console.log(newBill);
+			//function(user, payeePaid, payeeDue)
+			newBill.addPayee($('#addPerson').val(), $('#addAmountOwed').val(), $('#addAmountDue').val());
+			var newRow = '<tr class="ledger"><td>';
+				newRow += newBill.addDate;
+				newRow += '</td><td>';
+				newRow += newBill.payTo;
+				newRow += '</td><td>';
+				newRow += newBill.owner;
+				newRow += '</td><td>';
+				newRow += newBill.paid;
+				newRow += '</td><td>';
+				newRow += newBill.amtDue;
+				newRow += '</td><td>';
+				newRow += newBill.dueDate;
+				newRow += '</td><td>';
+				newRow += newBill.isPaid();
+				newRow += '</td></tr>';
+				newRow = $(newRow);
+			var newPayeeRow = '<tr class="ledger"><td>';
+			    newPayeeRow += '</td><td>';
+			    newPayeeRow += '</td><td>';
+			    newPayeeRow += newBill.payees[0].user;
+			    newPayeeRow += '</td><td>';
+			    newPayeeRow += newBill.payees[0].payeePaid;
+			    newPayeeRow += '</td><td>';
+			    newPayeeRow += newBill.payees[0].payeeDue; 
+			    newPayeeRow += '</td><td>';
+			    newPayeeRow += '</td><td>';
+			    newPayeeRow += newBill.payees[0].isPaid();
+			    newPayeeRow += '</td></tr>';
+			$('#ledger').append(newRow);
+			$('#ledger').append(newPayeeRow);	
+		}
+		</script>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<!--this is just a pretty font that we can use =) -->
+		<link href='http://fonts.googleapis.com/css?family=News+Cycle' rel='stylesheet' type='text/css'>
+	</head>
+	<body>
+		<div class="container">
+			<!--begin header area -->
+			<div class="header">
+				<div class="logo">
+					<img src="http://www.placekitten.com/40/40" alt="ninja">
+					<span id="pagetitle">Ledgr</span>
+				</div> 
+				<div class="user">
+					<img src="http://placekitten.com/40/40" alt="a kitten!">
+					<span id="username"> alkali </span>
+				</div>
+			</div>
+		<!-- end header area -->
+			<!--begin nav --> 
+			<nav>
+				<ul class="main-nav">
+					<li id="selected"> home </li>
+					<li>   </li>
+					<li>   </li>
+					<li>   </li>
+					<li>   </li>
+					<li> settings </li>
+				</ul>		
+			</nav>
+			<!--end nav-->
+			<!--begin right column -->
+				<div class="rightColumn">
+					<div id="userInfo">
+						<div id="userPhoto">
+							<img src="http://www.placekitten.com/50/50" alt="user photo">
+							<h3> Welcome, Alkali! </h3> 
+						</div>
+
+						<table id="userSummaries" >
+							<tr><td class="ledger-head"> Amount Owed By You</td><td>$X.XX</td></tr>
+							<tr><td class="ledger-head">  Amount Owed To You </td><td>$X.XX</td></tr>
+							<tr><td class="ledger-head"> Amount Spent</td><td>$X.XX</td></tr>
+							<tr><td class="ledger-head"> Amount Due </td><td>$X.XX</td></tr>
+						</table>
+					</div>
+					<div id="userNotices">
+						<p class="alert"> Rent due in 3 Days </p>
+						<p class="notice"> Energy Bill due next week </p>
+						<p> You owe Jack for Pizza </p>
+					</div>
+				</div>
+			<!--end right column --> 
+			<div class="leftColumn">
+			<p> Currently Showing 
+				<select>
+				<option value="currentMonth">Current Month</option>
+				<option value="pastMonth">Past Month</option>
+				<option value="allHistory">All of History</option>
+				</select>
+			</p><br>
+			<div class="addForm">
+				<table class="ledger" id="ledger">
+					<thead class="ledger-head">
+						<td class="date">Date</td>
+						<td class="description">Description</td>
+						<td class="responsible">Responsible</td>
+						<td class="amount" paid="">Amount Paid</td>
+						<td class="amount" due="">Amount Due</td>
+						<td class="due" date="">Due Date</td>
+						<td class="paid">Paid</td>
+					</thead>
+					<tr id='addBelow'></tr>
+					<tbody></tbody></table>
+					<form id="addRows">	
+					<table>
+						<thead>
+							Add New Rows
+						</thead>
+						<tbody>
+						<tr id="ledger-add1" class="ledger">
+							<td><input type="text" id="dateReceived" placeholder="Received&nbsp;MM/DD"></td>
+							<td><input type="text" id="description" placeholder="Description"></td>
+							<td><input type="text" id="responsible" placeholder="Responsible"></td>
+							<td><input type="text" id="amountOwed" placeholder="Amount&nbsp;Paid"></td>
+							<td><input type="text" id="amountDue" placeholder="Amount&nbsp;Due"></td>
+							<td><input type="text" id="dueDate" placeholder="Due&nbsp;MM/DD"></td>
+							<td><input type="text" id="paid" placeholder="Paid"></td>
+						</tr>
+						<tr id="ledger-add1a" class="ledger">
+							<td></td>
+							<td></td>
+							<td><input type="text" id="addPerson" placeholder="Person"></td>
+							<td><input type="text" id="addAmountOwed" placeholder="Amount&nbsp;Paid"></td>
+							<td><input type="text" id="addAmountDue" placeholder="Amount&nbsp;Due"></td>
+							<td></td>
+							<td><input type="text" id="addPaid" placeholder="Paid"></td>
+						</tr>
+					</tbody>
+				</table><input type="button" value="Clear"><input value="Submit" type="submit" onclick='submitForm(event)'></div></form>
+			</div>
+		</body>
+

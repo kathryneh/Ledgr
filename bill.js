@@ -11,22 +11,25 @@
  *the amount thus paid of the bill, the due date, the add date, 
  *and whether the bill is overdue. 
  */
-var Bill = function(payTo, owner, dueDate, amtPaid, amtDue, totalDue){
+var Bill = function(addDate ,payTo, owner, dueDate, amtPaid, amtDue, paid){
 	this.payTo = payTo;
 	this.owner = owner;
 	//javascript dates are YY MM DD
-	var today = new Date();
-	this.addDate = new Date(today.getYear(), today.getMonth(), today.getYear());
+	//var today = this.getDate(new Date());
+	//this.addDate = new Date(today.getYear(), today.getMonth(), today.getYear());
+	this.addDate = addDate;
 	var dueDateTemp = dueDate.split('/');//returns an array, but, expected entry of dates will be MM/DD/YY
-	this.dueDate = new Date(/*year*/dueDateTemp[2], /*month*/dueDateTemp[0],/*day*/ dueDateTemp[1]);
-	this.totalDue = totalDue;
+	//this.dueDate = new Date(/*year*/dueDateTemp[2], /*month*/dueDateTemp[0],/*day*/ dueDateTemp[1]);
+	this.dueDate = dueDate;
 	this.paid = amtPaid;
+	this.amtDue = amtDue;
+	this.hasPaid = paid;
 
 	//payees is an array of people who are additionally paying
 	this.payees = []
 	//add the owner to the list of payees. 
-	payees.push(new Payee (this.owner, this.amtPaid, this.amtDue));
-	owner.bills.push(this);
+	//payees.push(new Payee (this.owner, this.amtPaid, this.amtDue));
+	//owner.bills.push(this);
 }
 
 /*getDate()
@@ -43,7 +46,7 @@ Bill.prototype.getDate = function(date){
  * should be udpated each time a payee is added
  */
 Bill.prototype.updateAmountPaid = function(){
-	this.paid = 0;
+	//this.paid = 0;
 	$(this.payees).each(function(index, payee){
 		paid += payee.payeePaid;
 	});
@@ -70,10 +73,10 @@ Bill.prototype.isPaid = function(){
  *amount that the payee must pay and the amount the payee has paid 
  *thus far
  */
-Bill.prototpye.addPayee = function(user, payeePaid, payeeDue){
-	this.payees.push(new Payee(user, payeePaid, payeeDue);
+Bill.prototype.addPayee = function(user, payeePaid, payeeDue){
+	this.payees.push(new Payee(user, payeePaid, payeeDue));
 	this.updateAmountPaid();
-	user.bills.push(this);
+	//user.bills.push(this);
 }
 
 /*updatePayee()
@@ -82,7 +85,7 @@ Bill.prototpye.addPayee = function(user, payeePaid, payeeDue){
  *and how much the payee owes, if applicable. 
  *then, it updats the amount paid of the bill
  */
-Bill.protoype.updatePayee = function(user, payeePaid, payeeDue){
+Bill.prototype.updatePayee = function(user, payeePaid, payeeDue){
 	$(this.payees).each(function(index, payee){
 		if (payee.user == user){
 			if(!payeePaid == undefined){

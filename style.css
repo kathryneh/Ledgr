@@ -120,7 +120,9 @@ body{
 table #ledger{
   margin-right:25px;
 }
-
+.ledger > td{
+  width:130px;
+}
 
 .ledger-head{
   color:#218555;

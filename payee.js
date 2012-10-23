@@ -14,5 +14,6 @@ var Payee = function(user, payeePaid, payeeDue){
  *returns whether the payee has paid his portion or not
  */
 Payee.prototype.isPaid = function(){
-	return (this.payeePaid == this.payeeDue);
+	if(this.payeePaid == this.payeeDue) return "Yes";
+	return "No";
 }
