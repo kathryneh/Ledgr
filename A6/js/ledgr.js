@@ -1,8 +1,6 @@
 		var submitForm = function(event){
 			event.preventDefault();
 			console.log($('#amountOwed').val());
-		//$('#container').append($('#test').val());
-		//Bill = function(payTo, owner, dueDate, amtPaid, amtDue, totalDue)
 			var newBill = new Bill($('#dateReceived').val(),
 								   $('#description').val(), 
 							   $('#responsible').val(),
@@ -11,7 +9,6 @@
 							   $('#amountDue').val(),
 							   $('#paid').val());
 			console.log(newBill);
-			//function(user, payeePaid, payeeDue)
 			newBill.addPayee($('#addPerson').val(), $('#addAmountOwed').val(), $('#addAmountDue').val());
 			var newRow = '<tr class="ledger"><td>';
 				newRow += newBill.addDate;
@@ -42,5 +39,12 @@
 			    newPayeeRow += newBill.payees[0].isPaid();
 			    newPayeeRow += '</td></tr>';
 			$('#ledger').append(newRow);
-			$('#ledger').append(newPayeeRow);	
+			$('#ledger').append(newPayeeRow);
+			$('#dateReceived').val('');
+			$('#description').val(''); 
+		    $('#responsible').val('');
+			$('#dueDate').val(''); 
+			$('#amountOwed').val('');
+			$('#amountDue').val('');
+			$('#paid').val('');
 		}

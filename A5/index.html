@@ -1,0 +1,234 @@
+<h1> Assignment 5 </h1>
+<h2> Katie Hawthorne </h2>
+
+<h3> RESTful Interfaces to Ledgr </h3>
+<style>
+table{
+	border:1px solid black;
+}
+td{
+	border:1px solid black;
+}
+tr:nth-child(2n){
+	background-color:lightblue;
+}
+thead tr{
+	background-color:lightblue;
+}
+</style>
+<table>
+	<thead>
+		<tr>
+			<td>HTTP Method</td>
+			<td>URL Form</td>
+			<td>Type</td>
+			<td>Parameters</td>
+			<td>Result Structure</td>
+			<td>Description</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>POST</td>
+			<td>user.php</td>
+			<td>CREATE</td>
+			<td>firstName: first name of new user<br>
+				lastName: last name of new user <br>
+				emailAddress: email address of new user
+			</td>
+			<td>User object (see below)</td>
+			<td>Creates a new user with the given information. Returns a user object if creation is successful, or a 409 Conflict Error if the user's email address has already been registered.</td>
+		</tr>
+		<tr>
+			<td>GET</td>
+			<td>user.php</td>
+			<td>RETRIEVE</td>
+			<td>
+				None recognized
+			</td>
+			<td>Array of integers</td>
+			<td>Index of numeric ids for all users</td>
+		</tr>
+		<tr>
+			<td>GET</td>
+			<td>user.php/<id></td>
+			<td>RETRIEVE</td>
+			<td>
+				None recognized
+			</td>
+			<td>{user_id: Integer, firstName: String, lastName: String, email: String, Array of integers}</td>
+			<td>Returns information about a user as well as an array of bill_ids associated with that user. 404 Not Found if no user is associated with that user_id</td>
+		</tr>
+		<tr>
+			<td>POST</td>
+			<td>account.php</td>
+			<td>CREATE</td>
+			<td>user_id: integer id of user associated with the account<br>
+			vendor_id: integer id of vendor associated with the account <br>
+			accountNumber: string of the account number associated with this account. 
+			</td>
+			<td>{user_id: Integer, vendor_id: Integer, accountNumber: String </td>
+			<td>Creates a new user account for that specific vendor and user and returns the newly created object on success and 404 Not found on failure if the user_id vendor_id aggregate key is not found, and a 409 Conflict error if the account already exists.</td>
+		</tr>
+		<tr>
+			<td>GET</td>
+			<td>account.php/<user_id><vendor_id></td>
+			<td>RETRIEVE</td>
+			<td>None recognized
+			</td>
+			<td>accountNumber: String </td>
+			<td>Retrieves the account number of the user for that vendor, else returns 404 not found if that user does not have an account with that vendor</td>
+		</tr>
+		<tr>
+			<td>POST</td>
+			<td>vendor.php</td>
+			<td>CREATE</td>
+			<td>name: String of the name of the vendor<br>
+				category: String of the category of the vendor</td>
+			<td>{vendor_id: Integer, vName: String, category: String}</td>
+			<td>Creates a new vendor with the given information and returns the new vendor object. Returns 409 Conflict error if the vendor name already exists</td>
+		</tr>
+		<tr>
+			<td>POST</td>
+			<td>payee.php</td>
+			<td>CREATE</td>
+			<td>user_id: Integer userid of the user being assigned to this payee <br>
+				bill_id: Integer bill_id of the bill this payee is being added to <br>
+				due: Decimal(6,2) of the amount due by the user to pay this bill<br>
+				paid: Decimal(6,2) of the amount paid by the user so far; if not specified defaults to 0,<br> 
+				owner: boolean of whether this payee is the one responsible for the bill; if not specified defaults to false, 
+				</td>
+			<td>{ user_id: Integer, bill_id: integer, due: decimal(5,2), paid: decimal(5,2), owner: boolean}</td>
+			<td>Creates a new payee assigned to the user and bill as given. Returns a payee object on success, a 409 conflict error if the payee user_id bill_id aggregate key already exists, and a 404 not found error if either the user_id or the bill_id does not exist. </td>
+		</tr>
+		<tr>
+			<td>POST</td>
+			<td>payee.php/<user_id><bill_id></td>
+			<td>UPDATE</td>
+			<td>paid: updated amount that the user has paid
+				</td>
+			<td>{ user_id: Integer, bill_id: integer, due: decimal(5,2), paid: decimal(5,2), owner: boolean}</td>
+			<td>Updates the amount that the payee has paid on the bill. Returns a payee object on success, and a 404 not found error if the payee does not already exist</td>
+		</tr>
+		<tr>
+			<td>POST</td>
+			<td>payee.php/<user_id><bill_id></td>
+			<td>UPDATE</td>
+			<td>paid: updated amount that the user has paid
+				</td>
+			<td>{ user_id: Integer, bill_id: integer, due: decimal(5,2), paid: decimal(5,2), owner: boolean}</td>
+			<td>Updates the amount that the payee has paid on the bill. Returns a payee object on success, and a 404 not found error if the payee does not already exist</td>
+		</tr>
+		<tr>
+			<td>GET</td>
+			<td>payee.php/<user_id><bill_id></td>
+			<td>RETRIEVE</td>
+			<td>None recognized</td>
+			<td>{ user_id: Integer, bill_id: integer, due: decimal(5,2), paid: decimal(5,2), owner: boolean}</td>
+			<td>Returns the payee object</td>
+		</tr>
+		<tr>
+			<td>GET</td>
+			<td>payee.php/<user_id><bill_id></td>
+			<td>DELETE</td>
+			<td>delete</td>
+			<td>True</td>
+			<td>Returns true if the payee was successfully deleted, or a 404 not found error if the payee could not be found. </td>
+		</tr>
+		<tr>
+			<td>POST</td>
+			<td>bill.php</td>
+			<td>CREATE</td>
+			<td>vendor: id of vendor<br>
+				dueDate: YY-MM-DD date object of the date the bill is due <br>
+				amountDue: decimal (6,2) of the amount due for the bill
+				</td>
+			<td>Returns a bill object (see below)</td>
+			<td>Creates a new bill object with the specified parameters. Returns the bill object (see below), or a 404 Not found error if the vendor_id cannot be determined. Also returns an empty payee array that will be added to later.</td>
+		</tr>
+		<tr>
+			<td>POST</td>
+			<td>bill.php/<id></td>
+			<td>UPDATE</td>
+			<td>
+				dueDate: YY-MM-DD date object of the date the bill is due <br>
+				amountDue: decimal (6,2) of the amount due for the bill
+				</td>
+			<td>Returns an updated bill object (see below)</td>
+			<td>Updates the given bill object with a new due date or amount due if needed. Returns the bill object (see below), or a 404 Not found error if the bill_id cannot be determined</td>
+		</tr>
+		<tr>
+			<td>GET</td>
+			<td>bill.php/<id></td>
+			<td>RETRIEVE</td>
+			<td>
+				None recognized
+				</td>
+			<td>Returns a bill object (see below)</td>
+			<td>Returns the bill object associated with the specified id or a 404 Not found error if the bill_id cannot be found</td>
+		</tr>
+		<tr>
+			<td>GET</td>
+			<td>bill.php/<id></td>
+			<td>DELETE</td>
+			<td>
+				delete
+				</td>
+			<td>True</td>
+			<td>Returns true if the deletion was successful or a 404 Not found error if the bill_id cannot be found</td>
+		</tr>
+	</tbody>
+</table>
+<h4> User </h4>
+<pre>
+A User object is JSON encoded as:
+{user_id: Integer
+firstName: String,
+ lastName: String,
+ emailAddress:String
+}
+</pre>
+<h4> A Bill object is JSON encoded as:</h4>
+<pre>
+{
+	bill_id: Integer,
+	addDate:YY-MM-DD Date object, 
+	dueDate:YY-MM-DD Date object,
+	vendor_id:Integer, 
+	payees:Array of integers,
+	amountDue: Double 
+}
+</pre>
+<h3> Database Schema to Ledgr </h3>
+<pre>
+USER
+	user_id : INT, primary key
+	firstName : CHAR(25), first name of user
+	lastName : CHAR(25), last name of user
+	email : CHAR(50), email address of user
+
+ACCOUNTS
+	user_id : INT, FK from user table
+	vendor_id : INT, FK from vendor table 
+	number : CHAR(25) the account number of the user for that particular vendor 
+
+VENDOR
+	vendor_id : INT, PK
+	vName : name of the vendor/business
+	category : CHAR(25) category of vendor 
+
+PAYEE
+	user_id : INT, foreign key to USER table
+	paid : DECIMAL(6,2), dollar amount that the user has paid on the bill
+	due : DECIMAL(6,2), dollar amount that the user owes in total on the bill
+	bill_id : INT, foreign key to the BILL table.
+	owner : BOOLEAN if this users is the person responsible for paying the bill to the vendor 
+
+BILL
+	id : INT, primary key
+	addDate : DATE
+	dueDate : DATE
+	amountDue : DECIMAL(6,2), the total amount of the bill that must be paid by all users
+</pre>
+
+<img src="https://lh5.googleusercontent.com/816IEl_L08zQw7vBxjHz4sffj8jvlWRtwLJEr03HgvPg2wksuDd4fTwu_luoXcx_Tvi7C5ip5ZI">
