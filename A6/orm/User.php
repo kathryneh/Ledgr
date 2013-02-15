@@ -8,25 +8,33 @@ class User{
 
 	public static function create($firstName, $lastName, $email) {
 		$mysqli = new mysqli("classroom.cs.unc.edu", "kathryne", "comp426", "comp42621db");
-		$result = $mysqli->query("insert into user values (0, " . 
-			                     $firstName . ", " . $lastName . ", " . $email . ")");
+		$prepQry= 'insert into user values (0, "';
+		$prepQry.= $firstName;
+		$prepQry.= '", "';
+		$prepQry.= $lastName;
+		$prepQry.= '", "';
+		$prepQry.= $email;
+		$prepQry.= '")';
+		$result = $mysqli->query($prepQry);
 		if ($result) {
 			$new_id = $mysqli->insert_id;
-			return new User($user_id, $firstName, $lastName, $email);
+			return new User($new_id, $firstName, $lastName, $email);
 		}
-		return null;
 	}
 
 	public static function findByID($user_id){
 		$mysqli = new mysqli("classroom.cs.unc.edu", "kathryne", "comp426", "comp42621db");
-		$result = $mysqli->query("select * from user where id=".$user_id );
-		if($result){
+		$result = $mysqli->query("select * from user where user_id=".$user_id );
+		iuser_f($result){
 			if ($result->num_rows==0){
 				return null;
 			}
 			else{
 				$user_info= $result->fetch_array();
-				return new User($user_info['user_id'], $user_info['firstName'], $user_info['lastName'], $user_info['email']);
+				return new User($user_info['user_id'], 
+				$user_info['firstName'], 
+				$user_info['lastName'], 
+				$user_info['email']);
 			}
 		}
 		return null;
@@ -34,16 +42,16 @@ class User{
 
 	public static function getUsers($query){
 		$mysqli = new mysqli("classroom.cs.unc.edu", "kathryne", "comp426", "comp42621db");
-		$result = $mysqli->query('select user_id from user where firstName LIKE "%'.$query.'%" or lastName LIKE "%'.$query.'%" or email LIKE "%'.$query.'%" ');
+		$result = $mysqli->query('select user_id from user where firstName LIKE "%'.$query.'%" or lastName LIKE "%'.$query.'%" or emailAddress LIKE "%'.$query.'%" ');
 		$users = array();
-
 		if ($result){
 			if($result->num_rows==0){
 				return null;
 			}
-			$nextRow = $result->fetchrow();
-			while ($nextRow){
+			$nextRow = $result->fetch_row();
+			while ($nextRow != NULL){
 				$users[] = User::findByID($nextRow[0]);
+				$nextRow = $result->fetch_row();
 			}
 		}
 		return $users;
@@ -57,7 +65,7 @@ class User{
 	}
 
 	public function getUserId(){
-		return $this->id;
+		return $this->user_id;
 	}
 
 	public function getName(){
@@ -70,6 +78,7 @@ class User{
 
 	function updateEmail($new_email){
 		$this->email = $new_email;
+		print($email);
 		return $this->update();
 	}
 
@@ -80,13 +89,27 @@ class User{
 
 	private function update(){
 		$mysqli = new mysqli("classroom.cs.unc.edu", "kathryne", "comp426", "comp42621db");
-		$result = $mysqli->query("update user set firstName=".$this->firstName.", lastName=".$this->lastName.", email=".$this->email." where id=".$this->email);
+		$prepQry = 'update user set firstName="';
+		$prepQry.= $this->firstName;
+		$prepQry.= '", lastName="';
+		$prepQry.= $this->lastName;
+		$prepQry.= '", emailAddress="';
+		$prepQry.= $this->email;
+		$prepQry.= '" where user_id=';
+		$prepQry.= $this->user_id;
+		$result = $mysqli->query($prepQry);
+		print($prepQry);
 		return $result;
 	}
+	
+	//update user set firstName="jack", lastname="sparrow", emailAddress="pirate" where user_id=8;
 
 	public function delete(){
+	print($this->user_id);
 		$mysqli = new mysqli("classroom.cs.unc.edu", "kathryne", "comp426", "comp42621db");
-		$result = $mysqli->query("delete from user where id=".$this->id);
+		$deleteqry = "delete from user where user_id=".intval($this->user_id);
+		print($deleteqry);
+		$result = $mysqli->query($deleteqry);
 		return $result;
 	}
 
@@ -108,7 +131,7 @@ class User{
 			if($result->num_rows==0){
 				return null;
 			}
-			$nextRow = $result->fetchrow();
+			$nextRow = $result->fetch_row();
 			while ($nextRow){
 				$bills[] = Bills::findByID($nextRow[0]);
 			}
@@ -119,12 +142,20 @@ class User{
 	public function getAllUsers(){
 		$mysqli = new mysqli("classroom.cs.unc.edu", "kathryne", "comp426", "comp42621db");
 		$result = $mysqli->query("select user_id from user");
+		$users = array();
 		if($result){
-			return $result;
+			if($result->num_rows==0){
+				return null;
+			}
+			$nextRow = $result->fetch_row();
+			while($nextRow != NULL){
+				//$temp = User::findByID($nextRow[0]);
+				
+				$users[] = $nextRow[0];
+				$nextRow = $result->fetch_row();
+			}
 		}
-		else{
-			return null;
-		}
+		return $users;
 	}
 }
-
+?>
